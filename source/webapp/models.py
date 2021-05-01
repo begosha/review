@@ -21,11 +21,14 @@ class Product(models.Model):
         total = 0
         print(Review.objects.filter(product=self.pk))
         reviews = Review.objects.filter(product=self.pk)
-        for rate in reviews:
-            print(rate)
-            print(len(reviews))
-            total += rate.rating
-        return total/len(reviews)
+        if len(reviews) == 0:
+            return 0
+        else:
+            for rate in reviews:
+                print(rate)
+                print(len(reviews))
+                total += rate.rating
+            return total/len(reviews)
 
 
 

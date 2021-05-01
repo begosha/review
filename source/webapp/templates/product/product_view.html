@@ -7,6 +7,7 @@
             <h5>Product Rating: {{ product.get_avg }}</h5>
              <img class="picture" src="{{ product.picture.url }}" width="250" height="250" alt="product image">
             <hr>
+            <h5>Description:</h5>
             <p>{{ product.description}}</p>
             <p> Category: {{ product.category }}</p>
             <a class="btn btn-outline-info" href="{% url 'product-update' product.id %}">Update</a>
