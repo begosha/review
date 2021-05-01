@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, DeleteView, UpdateView, C
 from django.db.models import Q
 from django.utils.http import urlencode
 from django.views.generic.edit import FormMixin
+from django.contrib.auth.models import Group
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
@@ -33,6 +34,17 @@ class ReviewUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = ReviewForm
     context_object_name = 'review'
     permission_required = 'webapp.change_review'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(instance=self.object, data=request.POST)
+        if form.is_valid():
+            user = self.request.user
+            if not user.groups.filter(name='Moderators').exists():
+                self.object.is_moderated=False
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def has_permission(self):
         return self.get_object().author == self.request.user or super().has_permission()
