@@ -20,11 +20,36 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-
+                        {% if perms.webapp.add_project %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'product-add' %}">Add Product</a>
                         </li>
-
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <li class="nav-item" style="padding-top: 7px">Hello, <a href="{% url 'detail' user.pk %}">{{ user.username }}</a>!</li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'logout' %}?next={{ request.get_full_path }}">Sign out</a>
+                                </li>
+                            {% else %}
+                                {% if 'create' in request.get_full_path %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login' %}?next={{ request.GET.next }}">Login</a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login' %}?next={{ request.get_full_path }}">Login</a>
+                                </li>
+                                {% endif %}
+                                {% if 'login' in request.get_full_path %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'create' %}?next={{ request.GET.next }}">Sign Up</a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'create' %}?next={{ request.get_full_path }}">Sign Up</a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
                     </ul>
                 </div>
             </div>
