@@ -61,3 +61,21 @@ class ProductCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('index')
+
+class ProductUpdateView(UpdateView):
+    form_class = ProductForm
+    model = Product
+    template_name = 'product/product_update_view.html'
+    context_object_name = 'product'
+
+
+    def get_success_url(self):
+        return reverse('product', kwargs={'pk': self.kwargs.get('pk')})
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    context_object_name = 'product'
+    success_url = reverse_lazy('index')
+
+    def get(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
