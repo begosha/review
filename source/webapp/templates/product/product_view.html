@@ -24,7 +24,7 @@
                     <p>Rated on: {{ review.created_at }} by {{ review.author.first_name }} {{ review.author.last_name }}</p>
                     <p>E-mail: {{ review.author.email }}</p>
                     <hr>
-                    {% if request.user == user_obj or perms.webapp.change_review %}
+                    {% if request.user == review.author or perms.webapp.change_review %}
                      <a class="btn btn-outline-info" href="{% url 'review-update' review.id %}">Update review</a>
                     <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion{{ review.id }}">Delete review
                     </button>

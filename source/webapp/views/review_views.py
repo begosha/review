@@ -39,6 +39,7 @@ class ReviewUpdateView(PermissionRequiredMixin, UpdateView):
             user = self.request.user
             if not user.groups.filter(name='Moderators').exists():
                 self.object.is_moderated=False
+            print(form)
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
