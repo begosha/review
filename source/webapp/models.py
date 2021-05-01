@@ -17,6 +17,17 @@ class Product(models.Model):
     def __str__(self):
         return "{}. {}".format(self.pk, self.name)
 
+    def get_avg(self):
+        total = 0
+        print(Review.objects.filter(product=self.pk))
+        reviews = Review.objects.filter(product=self.pk)
+        for rate in reviews:
+            print(rate)
+            print(len(reviews))
+            total += rate.rating
+        return total/len(reviews)
+
+
 
 class Category(models.Model):
     category = models.CharField(max_length=15, null=False, blank=False, verbose_name='Category')
@@ -36,7 +47,7 @@ class Review(models.Model):
         null=True,
         related_name='tasks'
     )
-    product = models.ForeignKey('webapp.Product', related_name='review', on_delete=models.CASCADE, verbose_name='Product', null=False, blank=False)
+    product = models.ForeignKey('webapp.Product', related_name='ratings', on_delete=models.CASCADE, verbose_name='Product', null=False, blank=False)
     review = models.TextField(max_length=2000, null=True, blank=True, verbose_name='Review Description')
     rating = models.IntegerField(validators=(MinValueValidator(0),MaxValueValidator(5)), verbose_name='Rating')
     is_moderated = models.BooleanField(default=False)
@@ -50,3 +61,5 @@ class Review(models.Model):
 
     def __str__(self):
         return "{}. {}: {}".format(self.pk, self.author, self.rating)
+
+

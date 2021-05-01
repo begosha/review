@@ -22,7 +22,7 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ['author', 'product','review', 'rating', 'created_at', 'updated_at']
     list_filter = ['author']
     search_fields = ['author', 'rating']
-    fields = ['id','author', 'product','review', 'rating', 'created_at', 'updated_at']
+    fields = ['id','author', 'product','review', 'rating', 'is_moderated']
     readonly_fields = ['id']
 
 
