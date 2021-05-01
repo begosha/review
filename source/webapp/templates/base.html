@@ -24,6 +24,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'product-add' %}">Add Product</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'review-list' %}">See Reviews</a>
+                        </li>
                         {% endif %}
                         {% if user.is_authenticated %}
                             <li class="nav-item" style="padding-top: 7px">Hello, <a href="{% url 'detail' user.pk %}">{{ user.username }}</a>!</li>

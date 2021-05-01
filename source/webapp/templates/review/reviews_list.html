@@ -5,12 +5,13 @@
             <h1>Product Reviewer</h1>
             <p>Review and Rate the Products</p>
         </div>
-    {% include 'partial/simple_search.html' %}
-    {% for product in products %}
+    {% for review in reviews %}
     <div class="task">
-            <h2>{{ product.name }}</h2>
+            <h1>Product: {{ review.product.name }}</h1>
+            <h2>{{ review.author }}'s rating: {{ review.rating }}</h2>
+            <p>Comment: {{ review.review }}</p>
             <p>
-                <a href="{% url 'product' product.pk %}">See More...</a>
+                <a class="btn btn-outline-info"  href="{% url 'review-update' review.pk %}">Update</a>
             </p>
             <hr>
     </div>

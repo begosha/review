@@ -2,9 +2,22 @@ from django.shortcuts import  get_object_or_404
 from ..models import Product, Review
 from ..forms import ReviewForm, ModerateForm
 from django.urls import reverse
-from django.views.generic import DeleteView, UpdateView, CreateView
+from django.views.generic import DeleteView, UpdateView, CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
+class ReviewListView(PermissionRequiredMixin, ListView):
+    template_name = 'review/reviews_list.html'
+    context_object_name = 'reviews'
+    model = Review
+    ordering = ['-updated_at']
+    paginate_by = 5
+    paginate_orphans = 2
+    permission_required = 'webapp.moderate'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.exclude(is_moderated=True)
+        return queryset
 
 class ReviewCreate(LoginRequiredMixin, CreateView):
     form_class = ReviewForm
