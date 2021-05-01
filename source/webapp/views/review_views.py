@@ -9,7 +9,7 @@ from django.views.generic.edit import FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
-class ReviewCreate(CreateView):
+class ReviewCreate(LoginRequiredMixin, CreateView):
 
     form_class = ReviewForm
     model = Review
@@ -27,17 +27,25 @@ class ReviewCreate(CreateView):
         review.author = self.request.user
         return super().form_valid(form)
 
-class ReviewUpdateView(UpdateView):
+class ReviewUpdateView(PermissionRequiredMixin, UpdateView):
     model = Review
     template_name = 'review/review_update.html'
     form_class = ReviewForm
     context_object_name = 'review'
+    permission_required = 'webapp.change_review'
+
+    def has_permission(self):
+        return self.get_object().author == self.request.user or super().has_permission()
 
     def get_success_url(self):
         return reverse('product', kwargs={'pk': self.object.product.pk})
 
-class ReviewDeleteView(DeleteView):
+class ReviewDeleteView(PermissionRequiredMixin, DeleteView):
     model = Review
+    permission_required = 'webapp.delete_review'
+
+    def has_permission(self):
+        return self.get_object().author == self.request.user or super().has_permission()
 
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)

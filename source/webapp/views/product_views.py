@@ -49,6 +49,7 @@ class ProductView(FormMixin, DetailView):
     template_name = 'product/product_view.html'
     form_class = ReviewForm
 
+
 class ProductCreateView(CreateView):
     template_name = 'product/product_add_view.html'
     form_class = ProductForm

@@ -10,22 +10,28 @@
             <h5>Description:</h5>
             <p>{{ product.description}}</p>
             <p> Category: {{ product.category }}</p>
+            {% if perms.webapp.change_review %}
             <a class="btn btn-outline-info" href="{% url 'product-update' product.id %}">Update Product</a>
             <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete Product
             </button>
+            {% endif %}
             <hr>
             {% for review in product.ratings.all %}
+            {% if review.is_moderated %}
                 <div class="task">
-                    <h3><a href="{% url 'detail' user.pk %}">{{ review.author }}'s</a> rate: {{ review.rating }}</h3>
+                    <h3><a href="{% url 'detail' review.author.pk %}">{{ review.author }}'s</a> rate: {{ review.rating }}</h3>
                     <p>{{ review.review }}</p>
                     <p>Rated on: {{ review.created_at }} by {{ review.author.first_name }} {{ review.author.last_name }}</p>
                     <p>E-mail: {{ review.author.email }}</p>
                     <hr>
+                    {% if request.user == user_obj or perms.webapp.change_review %}
                      <a class="btn btn-outline-info" href="{% url 'review-update' review.id %}">Update review</a>
                     <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion{{ review.id }}">Delete review
                     </button>
+                    {% endif %}
                     <hr>
-                </div>
+                    </div>
+                {% endif %}
                     <div class="modal fade" id="deletion{{ review.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -47,12 +53,14 @@
                 {% empty %}
                     <p>No reviews yet.</p>
                 {% endfor %}
+            {% if user.is_authenticated %}
             <div class="task-form">
                 <h2>Add your Review</h2>
                 <form action='{% url "review-add" product.pk %}' method="POST">
                     {% include "review/review_form.html" with button_text="ADD" %}
                 </form>
             </div>
+            {% endif %}
         </div>
         <div class="modal fade" id="deletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
