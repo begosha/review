@@ -6,7 +6,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False, verbose_name='Product Name')
     description = models.TextField(max_length=2000, null=True, blank=True, verbose_name='Product Description')
     category = models.ForeignKey('webapp.Category', related_name='product_category', on_delete=models.PROTECT,verbose_name='Product Category', null=False, blank=False)
-    picture =  models.ImageField(null=True, blank=True, upload_to='product_pics', default = 'default.jpg' ,verbose_name='Product Image')
+    picture = models.ImageField(null=True, blank=True, upload_to='product_pics', default = 'default.jpg' ,verbose_name='Product Image')
 
 
     class Meta:
