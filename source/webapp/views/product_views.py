@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from ..models import Product, Category, Review
-from ..forms import SimpleSearchForm
+from ..forms import SimpleSearchForm, ProductForm
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.db.models import Q
@@ -47,3 +47,17 @@ class IndexView(ListView):
 class ProductView(DetailView):
     model = Product
     template_name = 'product/product_view.html'
+
+class ProductCreateView(CreateView):
+    template_name = 'product/product_add_view.html'
+    form_class = ProductForm
+    model = Product
+
+    def form_valid(self, form):
+        product = Product()
+        for key, value in form.cleaned_data.items():
+            setattr(product, key, value)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('index')

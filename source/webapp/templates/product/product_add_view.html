@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Add a New Product{% endblock %}
+{% block content %}
+	<div class="header-info-block">
+            <h1>Add A new product</h1>
+	</div>
+
+	<div class="task-form">
+		<form action="" method="POST">
+			{% include "product/product_form.html" with button_text="ADD" %}
+		</form>
+	</div>
+{% endblock %}
