@@ -16,8 +16,8 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     paginate_related_orphans = 0
 
     def get_context_data(self, **kwargs):
-        projects = self.object.projects.order_by('-start_date')
-        paginator = Paginator(projects, self.paginate_related_by, orphans=self.paginate_related_orphans)
+        reviews = self.object.reviews.order_by('-rating')
+        paginator = Paginator(reviews, self.paginate_related_by, orphans=self.paginate_related_orphans)
         page_number = self.request.GET.get('page', 1)
         page = paginator.get_page(page_number)
         kwargs['page_obj'] = page

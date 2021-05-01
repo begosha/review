@@ -48,7 +48,7 @@ class Review(models.Model):
         get_user_model(),
         on_delete=models.SET_NULL,
         null=True,
-        related_name='tasks'
+        related_name='reviews'
     )
     product = models.ForeignKey('webapp.Product', related_name='ratings', on_delete=models.CASCADE, verbose_name='Product', null=False, blank=False)
     review = models.TextField(max_length=2000, null=True, blank=True, verbose_name='Review Description')
