@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}Update the Task{% endblock %}
 {% block content %}
+{% if not fields_only %}
 <form action='{% url "review-update" review.id %}' method="POST">
-    {% include "review/review_form.html" with button_text="Edit" %}
+     {% csrf_token %}
+    {% endif %}
+    {% include "review/review_form.html" with form=form fields_only=True %}
+    {% if perms.webapp.moderate %}
+     {% include 'review/review_form.html' with form=moderate_form fields_only=True %}
+    {% endif %}
+    <br>
+    {% if not fields_only %}
+        <input type="submit" value="Submit">
+    {% endif %}
 </form>
 {% endblock %}

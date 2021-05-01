@@ -17,7 +17,7 @@
             {% endif %}
             <hr>
             {% for review in product.ratings.all %}
-            {% if review.is_moderated %}
+            {% if review.is_moderated or request.user == review.author or perms.webapp.moderate %}
                 <div class="task">
                     <h3><a href="{% url 'detail' review.author.pk %}">{{ review.author }}'s</a> rate: {{ review.rating }}</h3>
                     <p>{{ review.review }}</p>
