@@ -1,12 +1,12 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from ..models import Product, Category, Review
-from ..forms import SimpleSearchForm, ProductForm
-from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
-from django.db.models import Q
-from django.utils.http import urlencode
-from django.views.generic.edit import FormMixin
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+    from django.shortcuts import render, get_object_or_404, redirect
+    from ..models import Product, Category, Review
+    from ..forms import SimpleSearchForm, ProductForm, ReviewForm
+    from django.urls import reverse, reverse_lazy
+    from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
+    from django.db.models import Q
+    from django.utils.http import urlencode
+    from django.views.generic.edit import FormMixin
+    from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class IndexView(ListView):
@@ -44,9 +44,10 @@ class IndexView(ListView):
             return self.form.cleaned_data['search']
         return None
 
-class ProductView(DetailView):
+class ProductView(FormMixin, DetailView):
     model = Product
     template_name = 'product/product_view.html'
+    form_class = ReviewForm
 
 class ProductCreateView(CreateView):
     template_name = 'product/product_add_view.html'

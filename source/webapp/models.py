@@ -61,6 +61,11 @@ class Review(models.Model):
         db_table = 'reviews'
         verbose_name = 'Review'
         verbose_name_plural = 'Reviews'
+        permissions = [
+
+            ('moderate', 'Can moderate the review')
+
+        ]
 
     def __str__(self):
         return "{}. {}: {}".format(self.pk, self.author, self.rating)

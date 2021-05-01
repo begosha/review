@@ -18,13 +18,19 @@
                 <div class="task">
                     <h3>{{ review.author }}'s rate: {{ review.rating }}</h3>
                     <p>{{ review.review }}</p>
-                    <p>Rated on: {{ review.created_at }}</p>
+                    <p>Rated on: {{ review.created_at }} by {{ review.author.first_name }} {{ review.author.last_name }}</p>
                     <p>E-mail: {{ review.author.email }}</p>
                     <hr>
                     </div>
                 {% empty %}
                     <p>No reviews yet.</p>
                 {% endfor %}
+            <div class="task-form">
+                <h2>Add your Review</h2>
+                <form action='{% url "review-add" product.pk %}' method="POST">
+                    {% include "review/review_form.html" with button_text="ADD" %}
+                </form>
+            </div>
         </div>
         <div class="modal fade" id="deletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -44,5 +50,4 @@
               </div>
             </div>
           </div>
-
 {% endblock %}
