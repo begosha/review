@@ -27,6 +27,24 @@ class ReviewCreate(CreateView):
         review.author = self.request.user
         return super().form_valid(form)
 
+class ReviewUpdateView(UpdateView):
+    model = Review
+    template_name = 'review/review_update.html'
+    form_class = ReviewForm
+    context_object_name = 'review'
+
+    def get_success_url(self):
+        return reverse('product', kwargs={'pk': self.object.product.pk})
+
+class ReviewDeleteView(DeleteView):
+    model = Review
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('product', kwargs={'pk': self.object.product.pk})
+
 
 
 
