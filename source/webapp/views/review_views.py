@@ -1,19 +1,15 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from ..models import Product, Category, Review
-from ..forms import SimpleSearchForm, ProductForm, ReviewForm
-from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
-from django.db.models import Q
-from django.utils.http import urlencode
-from django.views.generic.edit import FormMixin
-from django.contrib.auth.models import Group
+from django.shortcuts import  get_object_or_404
+from ..models import Product, Review
+from ..forms import  ReviewForm
+from django.urls import reverse
+from django.views.generic import DeleteView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class ReviewCreate(LoginRequiredMixin, CreateView):
-
     form_class = ReviewForm
     model = Review
+
 
     def get_success_url(self):
         return reverse(
@@ -34,6 +30,7 @@ class ReviewUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = ReviewForm
     context_object_name = 'review'
     permission_required = 'webapp.change_review'
+
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

@@ -9,6 +9,7 @@ from django.views.generic.edit import FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
+
 class IndexView(ListView):
     template_name = 'product/index.html'
     context_object_name = 'products'
@@ -50,10 +51,11 @@ class ProductView(FormMixin, DetailView):
     form_class = ReviewForm
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'product/product_add_view.html'
     form_class = ProductForm
     model = Product
+    permission_required = 'webapp.add_product'
 
     def form_valid(self, form):
         product = Product()
@@ -64,20 +66,22 @@ class ProductCreateView(CreateView):
     def get_success_url(self):
         return reverse('index')
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = ProductForm
     model = Product
     template_name = 'product/product_update_view.html'
     context_object_name = 'product'
+    permission_required = 'webapp.change_product'
 
 
     def get_success_url(self):
         return reverse('product', kwargs={'pk': self.kwargs.get('pk')})
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, DeleteView):
     model = Product
     context_object_name = 'product'
     success_url = reverse_lazy('index')
+    permission_required = 'webapp.delete_product'
 
     def get(self, request, *args, **kwargs):
         return super().delete(request, *args, **kwargs)

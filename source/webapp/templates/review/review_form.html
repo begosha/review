@@ -4,9 +4,18 @@
    <p class="form-error">{{ error }}</p>
 {% endfor %}
 
-{% for field in form %}
+{% if user|is_group:"Moderators" %}
+    {% for field in form %}
    <p><label for="{{ field.id_for_label }}">{{ field.label }}</label></p>
-
+    {% endfor %}
+{% else %}
+    {% for field in form %}
+    {% if 'Moderated' in field.label %}
+            {% continue %}
+        {% endif %}
+    <p><label for="{{ field.id_for_label }}">{{ field.label }}</label></p>
+    {% endfor %}
+{% endif %}
 
    {% for error in field.errors %}
        <p class="form-error">{{ error }}</p>
