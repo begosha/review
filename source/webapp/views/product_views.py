@@ -43,3 +43,7 @@ class IndexView(ListView):
         if self.form.is_valid():
             return self.form.cleaned_data['search']
         return None
+
+class ProductView(DetailView):
+    model = Product
+    template_name = 'product/product_view.html'
