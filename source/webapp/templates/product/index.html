@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+{% block content %}
+    <div class="header-info-block">
+            <h1>Product Reviewer</h1>
+            <p>Review and Rate the Products</p>
+        </div>
+
+    {% include 'partial/simple_search.html' %}
+    {% for product in products %}
+    <div class="task">
+            <h2>{{ product.name }}</h2>
+            <p>
+                <a href="{#}">See More...</a>
+            </p>
+            <hr>
+    </div>
+    {% endfor %}
+    {% if is_paginated %}
+
+    {% include 'partial/pagination.html' %}
+
+    {% endif %}
+{% endblock %}
