@@ -1,61 +1,29 @@
 [
 {
-  "model": "webapp.product",
+  "model": "accounts.profile",
   "pk": 1,
   "fields": {
-    "name": "BB Cushion",
-    "description": "Express naturally attractive makeup by selecting Neutral Tone color if skin has a yellowish tone or Cool Tone color if skin has a reddish tone",
-    "category": 2,
-    "picture": "product_pics/bbcw-key-points-01.jpg"
+    "user": 3,
+    "github": null,
+    "avatar": ""
   }
 },
 {
-  "model": "webapp.product",
+  "model": "accounts.profile",
   "pk": 2,
   "fields": {
-    "name": "Ashlyan-Fu",
-    "description": "Very strange but Tasty Food from Karakol. Dunghan cuisine.",
-    "category": 1,
-    "picture": "product_pics/unnamed.jpg"
+    "user": 1,
+    "github": "https://github.com/begosha?tab=repositories",
+    "avatar": ""
   }
 },
 {
-  "model": "webapp.category",
-  "pk": 1,
-  "fields": {
-    "category": "Food"
-  }
-},
-{
-  "model": "webapp.category",
-  "pk": 2,
-  "fields": {
-    "category": "Cosmetics"
-  }
-},
-{
-  "model": "webapp.category",
+  "model": "accounts.profile",
   "pk": 3,
   "fields": {
-    "category": "Other"
-  }
-},
-{
-  "model": "auth.user",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$260000$b8dzimDYy27ptjSxiwboUx$4k4EuTy1ZX74xB1jEuxGFVEO7KQvhYd82imAbfQHfiA=",
-    "last_login": "2021-05-01T06:29:41.492Z",
-    "is_superuser": true,
-    "username": "gosha",
-    "first_name": "",
-    "last_name": "",
-    "email": "begoshaaaa@gmail.com",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2021-05-01T06:23:01.591Z",
-    "groups": [],
-    "user_permissions": []
+    "user": 2,
+    "github": null,
+    "avatar": ""
   }
 }
 ]

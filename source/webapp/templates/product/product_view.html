@@ -16,7 +16,7 @@
             <hr>
             {% for review in product.ratings.all %}
                 <div class="task">
-                    <h3>{{ review.author }}'s rate: {{ review.rating }}</h3>
+                    <h3><a href="{% url 'detail' user.pk %}">{{ review.author }}'s</a> rate: {{ review.rating }}</h3>
                     <p>{{ review.review }}</p>
                     <p>Rated on: {{ review.created_at }} by {{ review.author.first_name }} {{ review.author.last_name }}</p>
                     <p>E-mail: {{ review.author.email }}</p>
@@ -24,6 +24,7 @@
                      <a class="btn btn-outline-info" href="{% url 'review-update' review.id %}">Update review</a>
                     <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion{{ review.id }}">Delete review
                     </button>
+                    <hr>
                 </div>
                     <div class="modal fade" id="deletion{{ review.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -43,7 +44,6 @@
                           </div>
                         </div>
                       </div>
-                    </div>
                 {% empty %}
                     <p>No reviews yet.</p>
                 {% endfor %}
