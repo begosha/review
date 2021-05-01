@@ -13,5 +13,10 @@ class ProductForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ('review', 'rating', 'is_moderated')
+        fields = ('review', 'rating')
+
+class ModerateForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('is_moderated',)
 

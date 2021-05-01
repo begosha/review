@@ -80,9 +80,11 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
 
     def get_profile_form(self):
         form_kwargs = {'instance': self.object.profile}
+        print(form_kwargs)
         if self.request.method == 'POST':
             form_kwargs['data'] = self.request.POST
             form_kwargs['files'] = self.request.FILES
+            print(form_kwargs['data'])
         return ProfileChangeForm(**form_kwargs)
 
     def get_success_url(self):

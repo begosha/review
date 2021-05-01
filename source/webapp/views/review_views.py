@@ -1,6 +1,6 @@
 from django.shortcuts import  get_object_or_404
 from ..models import Product, Review
-from ..forms import  ReviewForm
+from ..forms import ReviewForm, ModerateForm
 from django.urls import reverse
 from django.views.generic import DeleteView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -9,7 +9,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 class ReviewCreate(LoginRequiredMixin, CreateView):
     form_class = ReviewForm
     model = Review
-
 
     def get_success_url(self):
         return reverse(
@@ -31,21 +30,43 @@ class ReviewUpdateView(PermissionRequiredMixin, UpdateView):
     context_object_name = 'review'
     permission_required = 'webapp.change_review'
 
+    def get_context_data(self, **kwargs):
+        if 'moderate_form' not in kwargs:
+            kwargs['moderate_form'] = self.get_moderate_form()
+        return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        form = self.form_class(instance=self.object, data=request.POST)
-        if form.is_valid():
+        form = self.get_form()
+        moderate_form = self.get_moderate_form()
+        if form.is_valid() and moderate_form.is_valid():
             user = self.request.user
             if not user.groups.filter(name='Moderators').exists():
                 self.object.is_moderated=False
-            print(form)
-            return self.form_valid(form)
+            return self.form_valid(form, moderate_form)
         else:
-            return self.form_invalid(form)
+            return self.form_invalid(form, moderate_form)
 
     def has_permission(self):
         return self.get_object().author == self.request.user or super().has_permission()
+
+    def form_valid(self, form, moderate_form):
+        response = super().form_valid(form)
+        moderate_form.save()
+        return response
+
+    def form_invalid(self, form, moderate_form):
+        context = self.get_context_data(form=form, moderate_form=moderate_form)
+        return self.render_to_response(context)
+
+    def get_moderate_form(self):
+        form_kwargs = {'instance': self.object}
+        print(form_kwargs)
+        if self.request.method == 'POST':
+            form_kwargs['data'] = self.request.POST
+            print(form_kwargs['data'])
+        return ModerateForm(**form_kwargs)
+
 
     def get_success_url(self):
         return reverse('product', kwargs={'pk': self.object.product.pk})
