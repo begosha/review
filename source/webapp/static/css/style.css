@@ -175,3 +175,6 @@ body{
 .clear {
     clear: both;
 }
+.my-rating {
+    display: flex;
+}

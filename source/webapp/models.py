@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
+from decimal import Decimal
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False, verbose_name='Product Name')
@@ -25,10 +27,8 @@ class Product(models.Model):
             return 0
         else:
             for rate in reviews:
-                print(rate)
-                print(len(reviews))
                 total += rate.rating
-            return total/len(reviews)
+            return round((total/len(reviews)), 1)
 
 
 

@@ -5,6 +5,13 @@
             <h1>Product:</h1>
             <h2>{{ product.name }}</h2>
             <h5>Product Rating: {{ product.get_avg }}</h5>
+        <div class="rating-result">
+            <span class="active"></span>
+            <span class="active"></span>
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+        </div>
              <img class="picture" src="{{ product.picture.url }}" width="250" height="250" alt="product image">
             <hr>
             <h5>Description:</h5>
@@ -80,4 +87,9 @@
               </div>
             </div>
           </div>
+<script>
+    $(".my-rating").starRating({
+  readOnly: true
+});
+</script>
 {% endblock %}
